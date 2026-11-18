@@ -138,3 +138,57 @@
 /*  width:100%;*/
 /*}*/
 
+
+
+.btn {
+  /* Typography & Layout */
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25); /* Makes white text pop */
+  
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+
+  /* Your original background & multi-layered shadows */
+  background: linear-gradient(#7c7cff, #5b5bf0);
+  box-shadow: 
+    inset 0 1px 0 #ffffff59,
+    inset 0 -2px 0 #0003,
+    0 1px 2px #0006,
+    0 8px 24px -6px #5b5bf099;
+
+  /* Smooth transitions for all states */
+  transition: filter 0.2s ease, box-shadow 0.2s ease, translate 0.2s ease;
+}
+
+/* Premium Hover State: Lifts slightly and intensifies the glow */
+.btn:hover {
+  filter: brightness(1.08);
+  box-shadow: 
+    inset 0 1px 0 #ffffff79,
+    inset 0 -2px 0 #0003,
+    0 4px 8px #0008,
+    0 12px 28px -4px #5b5bf0cc;
+}
+
+/* Active State (Depressed) */
+.btn:active {
+  translate: 0 1px;
+  filter: brightness(0.95);
+  box-shadow: inset 0 2px 4px #0004;
+}
+
+/* Focus state for accessibility */
+.btn:focus-visible {
+  outline: 2px solid #7c7cff;
+  outline-offset: 2px;
+}
