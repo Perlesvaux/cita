@@ -1,0 +1,68 @@
+/*Kudos to Anya Kubow!*/
+.field {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  background: #e2e2e9;
+  border-radius: 4px 4px 0 0;
+  box-shadow: inset 0 -1px 0 #44474e;
+  font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.2s;
+}
+
+/* Subtle Material state layer on hover */
+.field:hover {
+  background: #dadbe2;
+}
+
+.field input {
+  width: 100%;
+  height: 56px;
+  padding: 24px 16px 8px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #1a1b1f;
+  font-size: 16px;
+  line-height: 24px;
+  caret-color: #415f91;
+}
+
+.field label {
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  color: #44474e;
+  font-size: 16px;
+  line-height: 20px;
+  pointer-events: none;
+  transition: translate 0.2s, font-size 0.2s, color 0.2s;
+}
+
+/* Float label up when focused or populated */
+.field:focus-within label,
+.field:has(input:not(:placeholder-shown)) label {
+  translate: 0 -10px;
+  font-size: 12px;
+}
+
+.field:focus-within label {
+  color: #415f91;
+}
+
+/* Bottom active indicator bar */
+.field::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: #415f91;
+  scale: 0 1;
+  transform-origin: center;
+  transition: scale 0.25s;
+}
+
+.field:focus-within::after {
+  scale: 1;
+}
+
