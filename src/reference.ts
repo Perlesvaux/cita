@@ -8,10 +8,21 @@ function normalize(value: string): string {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
-    .replace(/[.,]/g, '')
+    .replace(/\./g, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
+
+
+//function normalize(value: string): string {
+//  return value
+//    .normalize('NFD')
+//    .replace(/[\u0300-\u036f]/g, '')
+//    .toLowerCase()
+//    .replace(/[.,]/g, '')
+//    .replace(/\s+/g, ' ')
+//    .trim();
+//}
 
 export interface BibleReference {
   book: string;
@@ -29,8 +40,16 @@ export function parseReference(
   // Romanos 3:4
   // 2 Macabeos 8:20
   // 2 Juan 11
+  //const match = value.match(/^(.+?)\s+(\d+)(?::(\d+))?$/);
 
-  const match = value.match(/^(.+?)\s+(\d+)(?::(\d+))?$/);
+  //genesis 6:20
+  //genesis 6: 20
+  //genesis 6,20
+  //genesis 6, 20
+  //genesis 6
+  //genesis 6:
+
+  const match = value.match(/^(.+?)\s+(\d+)(?:\s*[:,]\s*(\d+))?$/);
 
   if (!match) return null;
 
