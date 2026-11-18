@@ -11,7 +11,7 @@ export default function App() {
   const [error, setError] = useState('');
   const [url, setUrl] = useState('');
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const result = parseReference(search);
