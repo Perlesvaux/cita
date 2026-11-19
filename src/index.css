@@ -139,6 +139,20 @@
 /*}*/
 
 
+:root {
+  --color1: #7c7cff;
+  --color2: #5b5bf0;
+  --color3: #5b5bf0cc;
+  --color4: #5b5bf099;
+
+--color1: #c62d25;
+--color2: #c62d25cc;
+--color3: #c62d25aa;
+--color4: #c62d2588;
+
+}
+
+
 
 .btn {
   /* Typography & Layout */
@@ -159,12 +173,12 @@
   user-select: none;
 
   /* Your original background & multi-layered shadows */
-  background: linear-gradient(#7c7cff, #5b5bf0);
+  background: linear-gradient(var(--color1), var(--color2));
   box-shadow: 
     inset 0 1px 0 #ffffff59,
     inset 0 -2px 0 #0003,
     0 1px 2px #0006,
-    0 8px 24px -6px #5b5bf099;
+    0 8px 24px -6px var(--color4);
 
   /* Smooth transitions for all states */
   transition: filter 0.2s ease, box-shadow 0.2s ease, translate 0.2s ease;
@@ -177,7 +191,7 @@
     inset 0 1px 0 #ffffff79,
     inset 0 -2px 0 #0003,
     0 4px 8px #0008,
-    0 12px 28px -4px #5b5bf0cc;
+    0 12px 28px -4px var(--color3);
 }
 
 /* Active State (Depressed) */
@@ -191,4 +205,128 @@
 .btn:focus-visible {
   outline: 2px solid #7c7cff;
   outline-offset: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.autocomplete {
+  position: relative;
+  width: 100%;
+}
+
+/* Suggestions dropdown */
+.options {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  max-height: 240px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  padding: 5px;
+
+  background: #fff;
+  border: 1px solid #e7e2dc;
+  border-radius: 10px;
+
+  box-shadow:
+    0 4px 8px rgb(0 0 0 / 5%),
+    0 12px 28px rgb(0 0 0 / 10%);
+}
+
+/* Individual options */
+.option {
+  display: block;
+  width: 100%;
+
+  padding: 10px 12px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #292524;
+
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+}
+
+/* Hover and keyboard selection */
+.option:hover,
+.option:focus,
+.option.active {
+  background: #fdf0ee;
+  color: #c62d25;
+}
+
+/* Remove default browser outline */
+.option:focus {
+  outline: none;
+}
+
+/* Scrollbar */
+.options {
+  scrollbar-width: thin;
+  scrollbar-color: #d6d0ca transparent;
+}
+
+/* WebKit scrollbar */
+.options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.options::-webkit-scrollbar-thumb {
+  background: #d6d0ca;
+  border-radius: 10px;
+}
+
+.options::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Submit button */
+/*.btn {*/
+/*  padding: 10px 16px;*/
+/*  border: none;*/
+/*  border-radius: 8px;*/
+/**/
+/*  background: #c62d25;*/
+/*  color: white;*/
+/**/
+/*  font: inherit;*/
+/*  font-size: 1.1rem;*/
+/**/
+/*  cursor: pointer;*/
+/*  transition: background 150ms ease;*/
+/*}*/
+/**/
+/*.btn:hover {*/
+/*  background: #a9231d;*/
+/*}*/
+
+.options:empty {
+  display: none;
 }

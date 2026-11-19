@@ -10,9 +10,15 @@ export default function App() {
   const [error, setError] = useState('');
   const [url, setUrl] = useState('');
   
-  const suggestions = books.filter((book) =>
-    book.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const suggestions = 
+    books
+  .filter((book) =>
+    {
+      if (search.length < 1) return
+
+      return book.name.toLowerCase().includes(search.toLowerCase())
+    }
+   );
 
   function selectBook(name: string) {
     setSearch(`${name} `);
@@ -45,26 +51,33 @@ export default function App() {
       }}
     >
 
+    <div className="autocomplete">
+
       <TextField
         label="Cita bíblica"
         type="search"
-        list="bible-books"
         value={search}
         onChange={(e) => setSearch(e.currentTarget.value)}
         required
       />
 
+      <div className="options">
+
       {suggestions.map((book) => (
         <button
+          key={book.slug}
           type="button"
-          onPointerDown={(e) => {
-          e.preventDefault();
-          selectBook(book.name);
-        }}
+          className="option"
+          onPointerDown ={(e)=>e.preventDefault()}
+          onClick={() => selectBook(book.name)}
         >
-        {book.name}
+          {book.name}
         </button>
       ))}
+
+      </div>
+
+      </div>
 
       <button type="submit" className="btn">
         ⚲
