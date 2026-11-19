@@ -143,7 +143,7 @@ useEffect(() => {
       {error && <p role="alert">{error}</p>}
 
       {url && (
-        <a href={url} target="_blank" rel="noreferrer">
+        <a href={url} className="result-link" target="_blank" rel="noreferrer">
         {url}
         </a>
       )}
