@@ -1,26 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { TextField } from './TextField';
 
-type SearchBoxProps<T> = {
-  optionsRef: React.RefObject<HTMLDivElement | null>;
-  handleSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
+type SearchB0xProps<T> = {
   iterable: T[];
-  property: keyof T;
-  setSearch: (value: string) => void;
+  property: { [K in keyof T]: T[K] extends string ? K : never }[keyof T];
+  searchHandler: (value: string) => void;
   search: string;
+  label: string,
 };
 
 
-
 export function SearchB0x<T extends Record<string, any>>({
-  optionsRef,
-  handleSubmit,
   iterable,
   property,
-  setSearch,
-  search
-}: SearchBoxProps<T>){
+  searchHandler,
+  search,
+  label,
+}: SearchB0xProps<T>){
 
+  const optionsRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1)
 
   useEffect(() => {
@@ -31,21 +29,19 @@ export function SearchB0x<T extends Record<string, any>>({
     active?.scrollIntoView({
       block: 'nearest',
     });
+
   }, [activeIndex]);
 
-  
-  const suggestions = 
-    iterable
-  .filter((item) =>
-    {
-      if (search.length < 1) return
 
-      return item[property].toLowerCase().includes(search.toLowerCase())
-    }
-   );
+  const suggestions = search.length < 1
+    ? []
+    : iterable.filter((item) =>
+        item[property].toLowerCase().includes(search.toLowerCase())
+      )
 
-  function selectBook(name: string) {
-    setSearch(`${name} `);
+
+  function select(name: string) {
+    searchHandler(`${name} `);
   }
 
 
@@ -70,7 +66,7 @@ export function SearchB0x<T extends Record<string, any>>({
       case 'Enter':
         if (activeIndex >= 0) {
         e.preventDefault()
-        selectBook(suggestions[activeIndex].name)
+        select(suggestions[activeIndex][property])
       }
         break
 
@@ -78,35 +74,22 @@ export function SearchB0x<T extends Record<string, any>>({
         setActiveIndex(-1)
         break
 
-
       default:
         break;
     }
   }
 
 
-
-
-  return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        maxWidth: 360,
-        margin: '3rem auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.25rem',
-      }}
-    >
+  return (<>
 
     <div className="autocomplete">
 
       <TextField
-        label="Cita bíblica"
+        label={label}
         type="search"
         value={search}
         onChange={(e) => {
-          setSearch(e.currentTarget.value)
+          searchHandler(e.currentTarget.value)
           setActiveIndex(-1)
         }}
         onKeyDown={handleKeyDown}
@@ -115,29 +98,28 @@ export function SearchB0x<T extends Record<string, any>>({
 
       <div className="options" ref={optionsRef}>
 
-      {suggestions.map((item, index) => (
-        <button
-          key={item[property]}
-          type="button"
-          tabIndex={-1}
-          className={`option ${index === activeIndex ? 'active' : ''}`}
-          onPointerDown ={(e)=>e.preventDefault()}
-          onClick={() => selectBook(item[property])}
-        >
-          {item.name}
-        </button>
-      ))}
+        {suggestions.map((item, index) => (
+          <button
+            key={`${item[property]}-${index}`}
+            type="button"
+            tabIndex={-1}
+            className={`option ${index === activeIndex ? 'active' : ''}`}
+            onPointerDown ={(e)=>e.preventDefault()}
+            onClick={() => select(item[property])}
+          >
+            {item[property]}
+          </button>
+        ))}
 
       </div>
 
     </div>
 
-      <button type="submit" className="btn">
-        ⚲
-      </button>
+    <button type="submit" className="btn">
+      ⚲
+    </button>
 
-    </form>
-  );
+  </>);
 }
 
 
