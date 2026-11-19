@@ -203,7 +203,7 @@
 
 /* Focus state for accessibility */
 .btn:focus-visible {
-  outline: 2px solid #7c7cff;
+  outline: 2px solid var(--color1);
   outline-offset: 2px;
 }
 
@@ -269,9 +269,9 @@
   text-align: left;
 
   cursor: pointer;
-  transition:
-    background 120ms ease,
-    color 120ms ease;
+  /*transition:*/
+  /*  background 120ms ease,*/
+  /*  color 120ms ease;*/
 }
 
 /* Hover and keyboard selection */
@@ -306,26 +306,6 @@
 .options::-webkit-scrollbar-track {
   background: transparent;
 }
-
-/* Submit button */
-/*.btn {*/
-/*  padding: 10px 16px;*/
-/*  border: none;*/
-/*  border-radius: 8px;*/
-/**/
-/*  background: #c62d25;*/
-/*  color: white;*/
-/**/
-/*  font: inherit;*/
-/*  font-size: 1.1rem;*/
-/**/
-/*  cursor: pointer;*/
-/*  transition: background 150ms ease;*/
-/*}*/
-/**/
-/*.btn:hover {*/
-/*  background: #a9231d;*/
-/*}*/
 
 .options:empty {
   display: none;

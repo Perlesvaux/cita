@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { TextField } from './TextField';
 import { parseReference } from './reference';
 import { 
@@ -9,6 +9,20 @@ export default function App() {
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
   const [url, setUrl] = useState('');
+  const [activeIndex, setActiveIndex] = useState(-1)
+  const optionsRef = useRef<HTMLDivElement>(null);
+
+
+useEffect(() => {
+  if (activeIndex < 0) return;
+
+  const active = optionsRef.current?.children[activeIndex];
+
+  active?.scrollIntoView({
+    block: 'nearest',
+  });
+}, [activeIndex]);
+
   
   const suggestions = 
     books
@@ -23,6 +37,44 @@ export default function App() {
   function selectBook(name: string) {
     setSearch(`${name} `);
   }
+
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!suggestions.length) return
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setActiveIndex((i) => (i+1) % suggestions.length)
+        break;
+
+      case 'ArrowUp':
+        e.preventDefault()
+        setActiveIndex((i)=>
+          i <= 0
+          ? suggestions.length - 1
+          : i-1
+        )
+        break
+
+      case 'Enter':
+        if (activeIndex >= 0) {
+        e.preventDefault()
+        selectBook(suggestions[activeIndex].name)
+      }
+        break
+
+      case 'Escape':
+        setActiveIndex(-1)
+        break
+
+
+      default:
+        break;
+    }
+  }
+
+
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -57,17 +109,22 @@ export default function App() {
         label="Cita bíblica"
         type="search"
         value={search}
-        onChange={(e) => setSearch(e.currentTarget.value)}
+        onChange={(e) => {
+          setSearch(e.currentTarget.value)
+          setActiveIndex(-1)
+        }}
+        onKeyDown={handleKeyDown}
         required
       />
 
-      <div className="options">
+      <div className="options" ref={optionsRef}>
 
-      {suggestions.map((book) => (
+      {suggestions.map((book, index) => (
         <button
           key={book.slug}
           type="button"
-          className="option"
+          tabIndex={-1}
+          className={`option ${index === activeIndex ? 'active' : ''}`}
           onPointerDown ={(e)=>e.preventDefault()}
           onClick={() => selectBook(book.name)}
         >
