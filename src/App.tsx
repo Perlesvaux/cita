@@ -1,12 +1,22 @@
 import { useState } from 'react';
 import { TextField } from './TextField';
 import { parseReference } from './reference';
-import { bookOptions } from './books'
+import { 
+  books,
+} from './books'
 
 export default function App() {
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
   const [url, setUrl] = useState('');
+  
+  const suggestions = books.filter((book) =>
+    book.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  function selectBook(name: string) {
+    setSearch(`${name} `);
+  }
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -44,11 +54,17 @@ export default function App() {
         required
       />
 
-      <datalist id="bible-books">
-      {bookOptions.map((book) => (
-        <option key={book} value={book} />
+      {suggestions.map((book) => (
+        <button
+          type="button"
+          onPointerDown={(e) => {
+          e.preventDefault();
+          selectBook(book.name);
+        }}
+        >
+        {book.name}
+        </button>
       ))}
-      </datalist>
 
       <button type="submit" className="btn">
         ⚲
